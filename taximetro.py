@@ -1,45 +1,24 @@
 import sys
 import time
 from datetime import datetime
+import logging
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QHBoxLayout, QVBoxLayout, QLabel, 
-    QPushButton, QWidget, QMessageBox, QScrollArea, QTextEdit, QLineEdit, QFormLayout,
-    QFrame
-)
-from PyQt5.QtGui import QPixmap, QFont, QIcon
+    QPushButton, QWidget, QMessageBox, QScrollArea, QTextEdit, QLineEdit, QFrame
+    )
+from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import QTimer, Qt
-import logging
-
-class ModernButton(QPushButton):
-    def __init__(self, text, icon_path=None, color="#FFFFFF"):
-        super().__init__()
-        self.setText(text)
-        if icon_path:
-            self.setIcon(QIcon(icon_path))
-        self.setStyleSheet(f"""
-            QPushButton {{
-                background-color: {color};
-                border-radius: 10px;
-                padding: 15px;
-                color: white;
-                font-size: 14px;
-                min-width: 100px;
-                min-height: 80px;
-            }}
-            QPushButton:hover {{
-                background-color: {color.replace(')', ', 0.8)')};
-            }}
-        """)
-        self.setLayout(QVBoxLayout())
+from widgets import ModernButton
 
 class Taximetro(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.en_prueba = False  # По умолчанию режим тестирования выключен
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("Taxímetro digital")
-        self.setGeometry(200, 200, 800, 600)
+        self.setWindowTitle("TAXIMETRO digital")
+        self.setGeometry(100, 100, 800, 600)
         self.setStyleSheet("background-color: #F3F4F6;")
 
         # Главный контейнер
@@ -60,17 +39,23 @@ class Taximetro(QMainWindow):
         rates_layout = QVBoxLayout()
         
         # Заголовок секции тарифов
-        rates_title = QLabel("Tarifa actual")
-        rates_title.setStyleSheet("font-size: 20px; font-weight: bold;")
-        rates_title.setAlignment(Qt.AlignCenter)  # Выровнено по центру
-        rates_layout.addWidget(rates_title)
+        rates_title1 = QLabel("TAXIMETRO")
+        rates_title1.setStyleSheet("font-size: 30px; font-weight: bold;")
+        rates_title1.setAlignment(Qt.AlignCenter)  # Выровнено по центру
+        rates_layout.addWidget(rates_title1)
+
+        # Заголовок секции тарифов
+        rates_title2 = QLabel("Tarifa actual")
+        rates_title2.setStyleSheet("font-size: 15px; font-weight: bold;")
+        rates_title2.setAlignment(Qt.AlignLeft)  # Выровнено по центру
+        rates_layout.addWidget(rates_title2)
 
         # Контейнер для полей ввода
         inputs_layout = QHBoxLayout()
         
         # Поле для тарифа в состоянии покоя
         standing_rate_layout = QVBoxLayout()
-        standing_rate_label = QLabel("Tarifa en reposo (€/segundo)")
+        standing_rate_label = QLabel("Tarifa auto parado (€/segundo)")
         standing_rate_label.setStyleSheet("color: #666;")
         self.input_tarifa_parado = QLineEdit("0,02")
         self.input_tarifa_parado.setStyleSheet("""
@@ -86,7 +71,7 @@ class Taximetro(QMainWindow):
         
         # Поле для тарифа в движении
         moving_rate_layout = QVBoxLayout()
-        moving_rate_label = QLabel("Tarifa en movimiento (€/segundo)")
+        moving_rate_label = QLabel("Tarifa auto en movimiento (€/segundo)")
         moving_rate_label.setStyleSheet("color: #666;")
         self.input_tarifa_movimiento = QLineEdit("0,05")
         self.input_tarifa_movimiento.setStyleSheet("""
@@ -99,7 +84,6 @@ class Taximetro(QMainWindow):
         """)
         moving_rate_layout.addWidget(moving_rate_label)
         moving_rate_layout.addWidget(self.input_tarifa_movimiento)
-
         inputs_layout.addLayout(standing_rate_layout)
         inputs_layout.addLayout(moving_rate_layout)
         rates_layout.addLayout(inputs_layout)
@@ -178,7 +162,6 @@ class Taximetro(QMainWindow):
 
         # Кнопки управления
         buttons_layout = QHBoxLayout()
-        
         button_configs = [
             ("Iniciar", "play.png", "#10B981", self.iniciar_trayecto),
             ("Mover", "car.png", "#3B82F6", lambda: self.cambiar_estado("moviendo")),
@@ -212,13 +195,14 @@ class Taximetro(QMainWindow):
         main_layout.setContentsMargins(20, 20, 20, 20)
         main_layout.setSpacing(20)
 
-    # Остальные методы остаются без изменений
+    # методы класса
     def iniciar_trayecto(self):
         self.total = 0
         self.estado = "parado"
         self.tiempo_inicio = time.time()
         self.start_datetime = datetime.now()
-        self.timer.start(1000)
+        if not self.en_prueba:  # Если не в режиме тестирования
+            self.timer.start(1000)  # Запускаем таймер self.timer.start(1000)
         self.label_estado.setText("Estado: Parado")
         self.label_total.setText("0.00 €")
         logging.info("Nuevo trayecto iniciado.")
@@ -253,7 +237,7 @@ class Taximetro(QMainWindow):
         self.start_datetime = None
         self.label_estado.setText("Estado: Parado")
         self.label_total.setText("0.00 €")
-
+       
     def actualizar_costo(self):
         tiempo_actual = time.time()
         if self.estado == "parado":
@@ -273,7 +257,6 @@ class Taximetro(QMainWindow):
     
     def ver_historial(self):
         """Показывает окно с историей поездок"""
-        
         try:
             # Создаем новое окно для истории
             self.history_window = QWidget()
