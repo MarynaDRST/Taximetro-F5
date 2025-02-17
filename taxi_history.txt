@@ -1,0 +1,8 @@
+
+=== Registro de Trayecto ===
+Fecha: 2025-02-17
+Hora inicio: 08:36:30
+Hora fin: 08:36:34
+Duración: 0:00:03
+Total: 0.06 €
+========================
