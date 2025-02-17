@@ -50,7 +50,7 @@ Antes de ejecutar la aplicación, asegúrate de tener instaladas las siguientes 
 ## 🚀 **Instalación y ejecución:**  
 1. **Clona el repositorio:**  
 ```sh
-git clone <URL_DEL_REPOSITORIO>
+git clone https://github.com/MarynaDRST/Taximetro-F5.git
 cd taximetro
 ```
 2. **Ejecuta la aplicación:**  
