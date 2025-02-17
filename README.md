@@ -51,7 +51,7 @@ Antes de ejecutar la aplicación, asegúrate de tener instaladas las siguientes 
 1. **Clona el repositorio:**  
 ```sh
 git clone https://github.com/MarynaDRST/Taximetro-F5.git
-cd taximetro
+cd Taximetro-F5
 ```
 2. **Ejecuta la aplicación:**  
 ```sh
