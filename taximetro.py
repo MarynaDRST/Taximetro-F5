@@ -13,6 +13,12 @@ from widgets import ModernButton
 class Taximetro(QMainWindow):
     def __init__(self):
         super().__init__()
+        logging.basicConfig(
+            filename='taximetro.log',
+            format='%(asctime)s - %(levelname)s - %(message)s',
+            level=logging.INFO,
+            encoding='utf-8'
+    )
         self.en_prueba = False  # По умолчанию режим тестирования выключен
         self.initUI()
 
