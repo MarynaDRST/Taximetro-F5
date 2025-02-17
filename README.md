@@ -9,7 +9,7 @@ Esta aplicación está desarrollada con **PyQt5** y está diseñada para simular
 - **Estado actual:** Muestra el estado actual: **"Parado"** o **"Moviendo"**.  
 - **Cálculo del costo:** Cálculo automático del costo del trayecto en tiempo real.  
 - **Historial de trayectos:** Guarda y muestra el historial de todos los trayectos.  
-- **Interfaz moderna:** Basada en PyQt5 con un diseño funcional.  
+- **Interfaz:** Basada en PyQt5 con un diseño funcional.  
 
 ---
 
@@ -42,7 +42,7 @@ Esta aplicación está desarrollada con **PyQt5** y está diseñada para simular
 
 ## 🖥️ **Requisitos:**  
 Antes de ejecutar la aplicación, asegúrate de tener instaladas las siguientes dependencias:  
-- Python 3.11.9  
+- Python >= 3.11.9  
 - PyQt5  
 
 ---
@@ -93,12 +93,12 @@ taximetro/
 - `actualizar_costo()` – Actualiza el costo según el estado actual.  
 - `actualizar_tarifas()` – Actualiza las tarifas según los datos ingresados.  
 - `ver_historial()` – Abre una ventana con el historial de trayectos.  
-- `guardar_historial(end_datetime)` – Guarda la información del trayecto en un archivo.  
+- `guardar_historial()` – Guarda la información del trayecto en un archivo.  
 
 ---
 
 ## 🔧 **Configuración de tarifas:**  
-- **Tarifa auto parado (€/segundo)** – Costo cuando el vehículo está detenido.  
+- **Tarifa auto parado (€/segundo)** – Tarrifa cuando el vehículo está parado.  
 - **Tarifa auto en movimiento (€/segundo)** – Costo cuando el vehículo está en movimiento.  
 - Los valores se pueden cambiar en la interfaz o directamente en el código:  
 ```python
@@ -129,7 +129,7 @@ El historial se guarda en el archivo `taxi_history.txt` y contiene:
 - Implementar soporte para múltiples zonas tarifarias.  
 - Localización y soporte multilingüe.  
 - Implementar un sistema de autenticación con contraseña.
-- Integrar una base de datos.
+- Integrar una base de datos para guardar el historial de trayectos.
 - Dockerizar la aplicación.
 - Desarrollar una versión web.  
 
